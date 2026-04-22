@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install yt-dlp requests
-          sudo apt-get install -y ffmpeg
+          sudo apt-get update && sudo apt-get install -y ffmpeg nodejs
 
       - name: Run capture & send
         env:

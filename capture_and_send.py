@@ -103,7 +103,7 @@ def get_stream_url(youtube_url: str) -> str:
     if sys.platform == "win32":
         kwargs["creationflags"] = subprocess.CREATE_NO_WINDOW
     result = subprocess.run(
-        [YTDLP_EXE, "--no-playlist", "-f", VIDEO_QUALITY, "-g", youtube_url],
+        [YTDLP_EXE, "--no-playlist", "--extractor-args", "youtube:player_client=android", "-f", VIDEO_QUALITY, "-g", youtube_url],
         **kwargs
     )
     if result.returncode != 0:
