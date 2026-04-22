@@ -1,0 +1,37 @@
+name: Bookmap Live Capture
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'   # Chay moi 10 phut
+  workflow_dispatch:           # Cho phep chay thu thu cong
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8         # Timeout sau 8 phut neu bi treo
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install yt-dlp requests
+          sudo apt-get install -y ffmpeg
+
+      - name: Run capture & send
+        env:
+          YOUTUBE_URL_1: ${{ secrets.YOUTUBE_URL_1 }}
+          YOUTUBE_URL_2: ${{ secrets.YOUTUBE_URL_2 }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_THREAD_ID: ${{ secrets.TELEGRAM_THREAD_ID }}
+          VIDEO_QUALITY: "best[height<=1440]/best"
+          CAPTION_PREFIX: "Bookmap Live"
+        run: python capture_and_send.py
