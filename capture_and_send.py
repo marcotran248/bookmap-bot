@@ -102,7 +102,7 @@ def get_stream_url(youtube_url: str) -> str:
     kwargs = dict(capture_output=True, text=True, timeout=60)
     if sys.platform == "win32":
         kwargs["creationflags"] = subprocess.CREATE_NO_WINDOW
-    cmd = [YTDLP_EXE, "--no-playlist", "--extractor-args", "youtube:player_client=android", "-f", VIDEO_QUALITY, "-g", youtube_url]
+    cmd = [YTDLP_EXE, "--no-playlist", "-f", VIDEO_QUALITY, "-g", youtube_url]
     if (BASE_DIR / "cookies.txt").exists():
         cmd.extend(["--cookies", str(BASE_DIR / "cookies.txt")])
         
